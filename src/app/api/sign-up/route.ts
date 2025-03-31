@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs'
 
 import { sendVerificationEmail } from "@/helpers/sendVerificationEmail";
 
-//request:Request-its datatype
+
 export async function POST(request: Request) {
     await dbConnect()
     try {
@@ -66,7 +66,7 @@ export async function POST(request: Request) {
             await newUser.save()
          }
 
-            //send verification email
+       
 
             const emailResponse=await sendVerificationEmail(email,username,verifyCode)
 

@@ -111,7 +111,7 @@ const SignIn = () => {
                             )}
                         />
                         <Button type="submit" disabled={isSubmiting}>
-                            {isSubmiting ? "please wait...." : "sign up "}
+                            {isSubmiting ? "please wait...." : "sign in "}
                         </Button>
                     </form>
                 </Form>

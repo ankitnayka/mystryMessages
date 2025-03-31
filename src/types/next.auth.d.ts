@@ -1,5 +1,3 @@
-// Re-define Datatypes 
-
 import  "next-auth";
 import { DefaultSession } from "next-auth";
 
@@ -21,7 +19,6 @@ declare module 'next-auth'{
     }
 }
 
-//this also work of define types 
 declare module 'next-auth/jwt'{
     interface JWT{
         _id?:string,

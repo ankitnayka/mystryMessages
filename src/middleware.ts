@@ -8,6 +8,9 @@ export async function middleware(request: NextRequest) {
 
     const url = request.nextUrl;
 
+    console.log(url);
+    
+
     if (
         token &&
         (url.pathname.startsWith("/sign-in") ||

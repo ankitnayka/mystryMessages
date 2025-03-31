@@ -19,45 +19,49 @@ import axios from "axios"
 import { ApiResponse } from "@/types/apiResponse"
 import { toast } from "sonner"
 import { useState } from "react"
-import { useParams } from "next/navigation"
 
 const PublicMessage = () => {
 
-    const [isLoading, setIsLoading] = useState(false)
-    const params=useParams()
-    console.log("Params properties:",params?.username)
-   
+    const [isLoading,setIsLoading]=useState(false)
+
+
+
+    const { data: session } = useSession();
+    
     const form = useForm({
         resolver: zodResolver(messageSchema),
         defaultValues: {
             content: '',
         }
     })
-    const onSubmit = async (data: { content: string }) => {
+
+
+   
+
+    const onSubmit=async(data:{content:string})=>{
 
         setIsLoading(true)
-        if (!params?.username ) {
-            console.error("User is not valid.....");
+        if (!session || !session.user) {
+            console.error("User is not logged in!");
             return;
         }
         const payload = {
             content: data.content,
-            username: params?.username,
+            username: session.user.username, 
         };
-        try {
-            const response = await axios.post<ApiResponse>('/api/send-message', payload)
-
-            toast.success(response?.data?.message || "Message added..")
-        } catch (error: any) {
-            toast.success(error?.response?.data.message)
-            console.log("Error..try again",error)
-        } finally {
-
-        }
-
-    }
-
-    
+            try {
+                const response=await axios.post<ApiResponse>('/api/send-message',payload)
+                console.log(response)
+                toast.success(response?.data?.message || "Message added.." )
+            } catch (error:any) {
+                toast.success(error?.response?.data.message)
+                // console.log("Message not send..try again..",error)
+                
+            }finally{
+                
+            }
+           
+    }   
 
 
     return (
@@ -72,10 +76,10 @@ const PublicMessage = () => {
                             name="content"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className="underline text-red-900">Write Message </FormLabel>
+                                    <FormLabel>Email Address</FormLabel>
                                     <FormControl>
                                         <Input
-                                            placeholder="Minimum 10 character required..." {...field}
+                                            placeholder="enter Email" {...field}
                                         />
 
                                     </FormControl>
@@ -85,16 +89,11 @@ const PublicMessage = () => {
                             )}
                         />
                         <Button type="submit" className="ml-2">
-                            Send
-                        </Button>
+                    Send
+                </Button>
                     </form>
                 </Form>
-
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 ">
-                            {
-
-                            }
+                
             </div>
         </div>
     )

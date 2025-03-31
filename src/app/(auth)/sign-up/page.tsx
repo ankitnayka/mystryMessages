@@ -55,6 +55,7 @@ const SignUp = () => {
           setUsernameMessage(response.data?.message)
         } catch (error) {
           console.log("Error on check username available!!");
+          toast.error("no ")
           const axiosError = error as AxiosError<ApiResponse>;
           setUsernameMessage(
             axiosError.response?.data.message ?? "Error checking username...."

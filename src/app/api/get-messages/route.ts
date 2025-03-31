@@ -12,6 +12,7 @@ export async function GET(request: Request) {
     const session = await getServerSession(authOptions);
     const user = session?.user;
 
+    // console.log("Server",user)
     if(!session || !session.user){
         return Response.json({
             success:false,
@@ -20,14 +21,16 @@ export async function GET(request: Request) {
     }
 
     const userId=new mongoose.Types.ObjectId(user?._id);
-
+    // console.log("UserId",userId)
     try {
             const user=await UserModel.aggregate([
-                {$match:{id:userId}},
-                {$unwind:'messages'},
+                {$match:{_id:userId}},
+                {$unwind:'$messages'},
                 {$sort:{'messages.createdAt':-1}},
                 {$group:{_id:'_$id',messages:{$push:'$messages'}}}
             ])
+            // console.log("new user",user);
+            
 
             if(!user || user.length===0){
                 return Response.json({

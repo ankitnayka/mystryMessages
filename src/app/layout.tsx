@@ -32,13 +32,13 @@ export default function RootLayout({
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <AuthProvider>
+      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+          <Toaster />
           <Navbar/>
           {children}
-          <Toaster />
-        </AuthProvider>
       </body>
+        </AuthProvider>
     </html>
   );
 }

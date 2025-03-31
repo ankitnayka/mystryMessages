@@ -19,7 +19,7 @@ export const authOptions: NextAuthOptions = {
                     throw new Error("Email and password are required.");
                 }
                 await dbConnect();
-                    console.log("userEmial",credentials.identifier)
+                console.log("userEmial", credentials.identifier)
                 try {
 
                     const user = await UserModel.findOne({
@@ -28,19 +28,19 @@ export const authOptions: NextAuthOptions = {
                             { username: credentials.identifier }
                         ]
                     })
-                    if(!user){
+                    if (!user) {
                         throw new Error('No user Found with this email');
                     }
-                    
-                    if(!user.isVerified){
+
+                    if (!user.isVerified) {
                         throw new Error(' please  verified your account first !!');
                     }
-                    
-                    const isPasswordCorrect=await bcrypt.compare(credentials.password,user.password);
-                    if(isPasswordCorrect){
+
+                    const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password);
+                    if (isPasswordCorrect) {
                         return user
                     }
-                    else{
+                    else {
 
                         throw new Error(' please  verified your account first !!');
                     }
@@ -68,12 +68,14 @@ export const authOptions: NextAuthOptions = {
                 token.isVerified = user.isVerified;
                 token.isAcceptingMessage = user.isAcceptingMessage;
                 token.username = user.username;
+                console.log("JWT Token Generated: ", token);
             }
             return token
         }
     },
     pages: {
-        signIn: "/sign-in"
+        signIn: "/sign-in",
+        error:"/sihn-in"
     },
     session: {
         strategy: "jwt"
